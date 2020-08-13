@@ -30,10 +30,6 @@ void setup() {
 
 String myString="";
 
-
-
-
- 
 void setNeopixel(){     //네오픽셀 동작 클래스
     
         Serial.println("start neopixel");
@@ -201,13 +197,13 @@ void fill_pill_box(){//약통 채웠는지 확인
     avr_RED2=(avr_RED2+read_RED2)/2;
     avr_RED3=(avr_RED3+read_RED3)/2;
     avr_RED4=(avr_RED4+read_RED4)/2;
-  
+  }
   if(avr_RED1>=0.9&&avr_RED2>=0.9&&avr_RED3>=0.9&&avr_RED4>=0.9){//약통이 빈 경우
    setNeopixel();
    Serial.println("약통을 채우세요");
    bt.println("약통을 채우세요");
    }
-  }
+  
   if((avr_RED1<0.9)&&(avr_RED2<0.9)&&(avr_RED3<0.9)&&(avr_RED4<0.9)) { //약통을 채운경우
     Serial.println("약통을 채웠습니다!");
     bt.println("약통을 채웠습니다");
@@ -276,11 +272,10 @@ void receive_message(){
       time_pill(4);
     }
 
-      myString="";
+      myString="";//문자열 초기화
     }        
 
-    
-
+   
 }
 
 void loop() { 
