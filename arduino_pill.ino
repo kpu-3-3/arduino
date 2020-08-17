@@ -190,18 +190,26 @@ void check_pill(int check_num){//적외선 센서로 약물 여부 확인
     }
   }
   
-void fill_pill_box(){//약통 채웠는지 확인 
+void fill_pill_box(){//약통 채웠는지 확인
+   
   while(1){
-  for(int i=0;i<20;i++){
+  for(int i=0;i<10;i++){
+    read_RED1=digitalRead(RED1);
+    read_RED2=digitalRead(RED2);
+    read_RED3=digitalRead(RED3);
+    read_RED4=digitalRead(RED4);
+    
     avr_RED1=(avr_RED1+read_RED1)/2;
     avr_RED2=(avr_RED2+read_RED2)/2;
     avr_RED3=(avr_RED3+read_RED3)/2;
-    avr_RED4=(avr_RED4+read_RED4)/2;
+    avr_RED4=(avr_RED4+read_RED4)/2;  
+    
+    delay(1000);
   }
-  if(avr_RED1>=0.9&&avr_RED2>=0.9&&avr_RED3>=0.9&&avr_RED4>=0.9){//약통이 빈 경우
-   setNeopixel();
+  if((avr_RED1>=0.9)||(avr_RED2>=0.9)||(avr_RED3>=0)||(avr_RED4>=0.9)){//약통이 빈 경우 
    Serial.println("약통을 채우세요");
    bt.println("약통을 채우세요");
+   setNeopixel();
    }
   
   if((avr_RED1<0.9)&&(avr_RED2<0.9)&&(avr_RED3<0.9)&&(avr_RED4<0.9)) { //약통을 채운경우
@@ -209,7 +217,7 @@ void fill_pill_box(){//약통 채웠는지 확인
     bt.println("약통을 채웠습니다");
     break;
   }
-  delay(1000);
+
  }
 }  
 void time_pill(int type_num){
@@ -229,7 +237,7 @@ void time_pill(int type_num){
     
     case 4:
       check_pill(4);
-      delay(30000);    
+      delay(10000);    //테스트용 시간단위로 수정
       fill_pill_box();//약통채우기 알람 발생
       break;
       
@@ -249,7 +257,7 @@ void receive_message(){
       
     if(!myString.equals(""))
     {
-      Serial.println(" send message : " + myString);
+      Serial.println("send message : " + myString);
       if(myString.equals("type1")){
       setNeopixel();
       delay(10000); //테스트용이라 10초 //나중에 1800*1000=1800000=30분으로 수정하기 
